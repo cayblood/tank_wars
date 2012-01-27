@@ -2,7 +2,8 @@
 require 'rubygems'
 require 'bundler/setup'
 
-$LOAD_PATH.unshift File.join(File.expand_path(__FILE__), "..", "..", "lib")
 require 'chingu'
 include Gosu
 
+require 'tank_wars/player'
+require 'tank_wars/game'
