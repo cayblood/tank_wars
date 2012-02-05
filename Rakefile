@@ -11,7 +11,7 @@ end
 
 desc "Run the game"
 task :run do
-	TankWars.new.run
+	TankWars.new.show
 end
 
 task :default => :run
