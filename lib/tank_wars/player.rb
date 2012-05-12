@@ -15,10 +15,12 @@ class Player < Chingu::GameObject
     @cannon_x = @x + (@width / 2)
     @y = 600
     @color = COLORS[@player_number - 1]
+    @y_tip = -30
+    @x_tip = -30
   end
 
-  def draw_cannon
-    $window.draw_line(@cannon_x, @y, @color, @cannon_x - 30, @y - 30, @color)
+  def draw_cannon()
+    $window.draw_line(@cannon_x, @y, @color, @cannon_x + @x_tip, @y + @y_tip, @color)
   end
 
   def draw
@@ -49,8 +51,12 @@ class Player < Chingu::GameObject
   end
 
   def increase_angle
+    @x_tip += 2
+    @y_tip -= 2
   end
 
   def decrease_angle
+    @x_tip -= 2
+    @y_tip += 2
   end
 end
