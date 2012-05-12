@@ -57,14 +57,17 @@ class TankWars
         case line
         when /^ASSIGN (\d+)$/
           @network.client.dispatch(:on_self_id, $1.to_i)
+
         when /^POSITIONS (.*?)$/
           clients = $1.split(" ").map do |client|
             id, pos = client.split(":").map(&:to_i)
           end
 
           @network.client.dispatch(:on_update_positions, clients)
+
         when /^ANGLE (\d+) (\d+)$/
           @network.client.dispatch(:on_change_angle, $1.to_i, $2.to_i)
+
         else
           puts "Unsupported message: #{line.inspect}"
         end

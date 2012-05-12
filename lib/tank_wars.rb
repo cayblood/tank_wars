@@ -59,8 +59,9 @@ class TankWars < Chingu::Window
     # I know my own ID
     return if @self_id == id
 
-    player = @players[id]
-    player.target_angle = value if player
+    if player = @players[id]
+      player.target_angle = value
+    end
   end
 end
 
