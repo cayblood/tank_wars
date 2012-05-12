@@ -20,16 +20,8 @@ module Tank
     end
   end
 
-  def broadcast_shot(angle, power)
-    message = "SHOT #{@id} #{angle} #{power}"
-    $clients.values.each do |client|
-      puts "sending #{message} to #{client.id}"
-      client.send_data(message)
-    end
-  end
-
-  def broadcast_angle(angle)
-    message = "ANGLE #{@id} #{angle}"
+  def broadcast_message(name, *args)
+    message = "#{name} #{@id} #{args.join(" ")}\n"
     $clients.values.each do |client|
       puts "sending #{message} to #{client.id}"
       client.send_data(message)
@@ -43,7 +35,7 @@ module Tank
     @x = $next_position
     $next_position += Space
     send_data("ASSIGN #{id}\n")
-    broadcast_angle(270)
+    broadcast_message("ANGLE", 270)
     broadcast_positions
   end
 
@@ -57,7 +49,10 @@ module Tank
     case line
     when /^SHOOT (.*)$/
       angle, power = $1.split(" ")
-      broadcast_shot(angle, power)
+      broadcast_message("SHOT", angle, power)
+    when /^ANGLE (.*)$/
+      angle = $1
+      broadcast_message("ANGLE", angle)
     else
       puts "unsupported message #{line.inspect}"
     end
