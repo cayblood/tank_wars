@@ -53,10 +53,19 @@ class Player < Chingu::GameObject
 
   def increase_angle
     calculate_angle!(1) if @target_angle < 360
+    Sound["select.wav"].play
   end
 
   def decrease_angle
     calculate_angle!(-1) if @target_angle > 180
+    Sound["select.wav"].play
+  end
+
+  def play_select
+    @time_since_select_was_played 
+    if @time_since_select_was_played > 1
+      Sound["select.wav"].play
+    end
   end
 
   private
