@@ -5,25 +5,23 @@ class Player < Chingu::GameObject
   attr_accessor :x, :y, :width, :height, :blocked_on_left, :blocked_on_right
 
   COLORS = [Gosu::Color::GRAY, Gosu::Color::GREEN, Gosu::Color::RED, Gosu::Color::BLUE]
-  GUN_LENGTH = 30
+  GUN_LENGTH = 20
 
   def initialize(options)
     super
     @width = 50
     @height = 20
-    @player_number = options[:player_number]
+    @player_number = options[:player_number] % COLORS.length + 1
     @x = options.fetch(:x, $window.width - ($window.width / 5 * @player_number) - (@width / 2))
     @gun_base_x = @x + (@width / 2)
     @y = 600
     @color = COLORS[@player_number - 1]
-    @target_angle = 225
+    @target_angle = 270
+    calculate_angle!(0)
   end
 
   def draw_gun
-    radians = @target_angle * Math::PI / 180
-    line_width = (GUN_LENGTH * Math.cos(radians)).round
-    line_height = (GUN_LENGTH * Math.sin(radians)).round
-    $window.draw_line(@gun_base_x, @y, @color, @gun_base_x + line_width, @y + line_height, @color)
+    $window.draw_line(@gun_base_x, @y, @color, @gun_tip_x, @gun_tip_y, @color)
   end
 
   def draw
@@ -54,10 +52,23 @@ class Player < Chingu::GameObject
   end
 
   def increase_angle
-    @target_angle += 1 if @target_angle < 360
+    calculate_angle!(1) if @target_angle < 360
   end
 
   def decrease_angle
-    @target_angle -= 1 if @target_angle > 180
+    calculate_angle!(-1) if @target_angle > 180
+  end
+
+  private
+
+  def calculate_angle!(modifier)
+    @target_angle += modifier
+    radians = @target_angle * Math::PI / 180
+    line_width = GUN_LENGTH * Math.cos(radians)
+    line_height = GUN_LENGTH * Math.sin(radians)
+    @gun_tip_x = @gun_base_x + line_width.round
+    @gun_tip_y = @y + line_height.round
+
+    #send_to_server
   end
 end
