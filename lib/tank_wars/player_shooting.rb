@@ -37,7 +37,8 @@ module PlayerShooting
       initial_velocity: power,
       x: @gun_tip_x,
       y: @gun_tip_y,
-      image: Image["shell.png"]
+      image: Image["shell.png"],
+      elevation: 600,
     }
     Projectile.create(options)
     play_shot_fired_sound
