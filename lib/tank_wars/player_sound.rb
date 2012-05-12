@@ -1,3 +1,4 @@
+module TankWars
 module PlayerSound
   def play_select_sound
     if @select_sound
@@ -23,4 +24,5 @@ module PlayerSound
     Sound["shot_fired.wav"].play
   end
 
+end
 end
