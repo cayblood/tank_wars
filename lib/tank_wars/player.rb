@@ -1,3 +1,4 @@
+require 'tank_wars/projectile'
 require 'tank_wars/player_draw'
 require 'tank_wars/player_sound'
 require 'tank_wars/player_shooting'
@@ -9,7 +10,6 @@ class Player < Chingu::GameObject
 
   trait :bounding_box, :scale => 1.0
   trait :collision_detection
-  trait :timer
 
   attr_accessor :x, :y, :width, :height, :blocked_on_left, :blocked_on_right
   attr_reader :target_angle

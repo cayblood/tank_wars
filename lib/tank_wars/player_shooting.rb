@@ -32,15 +32,20 @@ module PlayerShooting
 
 
   def shot_fired(angle, power)
+    options = {
+      initial_angle: angle,
+      initial_velocity: power,
+      x: @gun_tip_x,
+      y: @gun_tip_y,
+      image: Image["shell.png"]
+    }
+    Projectile.create(options)
     play_shot_fired_sound
   end
-
 
   def fire
     return unless Time.now - @last_shot > @cooldown
     @last_shot = Time.now
     notify_shot_fired
   end
-
-
 end
