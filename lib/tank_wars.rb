@@ -18,21 +18,41 @@ class TankWars < Chingu::Window
     self.input = { escape: :exit } # exits example on Escape
     
     @background = Background.create
+    @networking = Networking.new(self)
 
-    # initialize players
-    @players = []
-    (1..4).each do |player_number|
-      @players << Player.create(player_number: player_number)
-      if player_number == OUR_PLAYER_NUMBER
-        @players[player_number - 1].input = { holding_left: :decrease_angle, holding_right: :increase_angle }
-      end
-    end
+    @players = {}
   end
   
   def update
     super
+    @networking.client.run
     @background.draw
     self.caption = "FPS: #{self.fps} ms since last tick: " +
                    "#{self.milliseconds_since_last_tick}"
   end
+
+  # Events
+  def on_myself(id)
+    @myself = id
+  end
+
+  def on_update_positions(clients)
+    left = @players.keys
+    clients.each do |id, pos|
+      left.delete(id)
+      player = @players[id] ||= Player.create(:player_number => id)
+
+      if id == @myself
+        player.input = { holding_left: :decrease_angle, holding_right: :increase_angle }
+      end
+    end
+
+    left.each do |id|
+      player = @players.delete(id)
+      player.destroy
+    end
+  end
 end
+
+require 'tank_wars/networking'
+
