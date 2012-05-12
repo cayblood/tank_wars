@@ -2,8 +2,24 @@ class Player < Chingu::GameObject
   trait :bounding_box, :scale => 1.0
   trait :collision_detection
 
-  attr_accessor :blocked_on_left, :blocked_on_right
+  attr_accessor :x, :y, :width, :height, :blocked_on_left, :blocked_on_right
 
+  COLORS = [Gosu::Color::GRAY, Gosu::Color::GREEN, Gosu::Color::RED, Gosu::Color::BLUE]
+
+  def initialize(options)
+    super
+    @width = 50
+    @height = 20
+    @player_number = options[:player_number]
+    @x = $window.width - ($window.width / 5 * @player_number) - (@width / 2)
+    @y = 600
+    @color = COLORS[@player_number - 1]
+  end
+
+  def draw
+    @rect = Chingu::Rect.new(@x, @y, @width, @height)
+    $window.fill_rect(@rect, @color, 1)
+  end
 
   def update
     self.blocked_on_left = false
@@ -15,6 +31,7 @@ class Player < Chingu::GameObject
         player.blocked_on_left = true
       end
     end
+    draw
   end
 
   def move_left
