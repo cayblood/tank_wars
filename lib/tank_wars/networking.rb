@@ -2,7 +2,7 @@ require 'eventmachine'
 
 Thread.abort_on_exception = true
 
-class TankWars
+module TankWars
   class Networking
     PORT = 9876
     attr_accessor :server, :client

@@ -1,3 +1,5 @@
+module TankWars
+
 module PlayerShooting
   def increase_angle
     if @target_angle < 360
@@ -49,4 +51,5 @@ module PlayerShooting
     @last_shot = Time.now
     notify_shot_fired
   end
+end
 end
