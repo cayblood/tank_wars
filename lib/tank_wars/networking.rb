@@ -76,7 +76,8 @@ class TankWars
         end
       end
 
-      def send_shot(power, angle)
+      def send_shot(angle, power)
+        send_data("SHOOT #{angle} #{power}\n")
       end
 
       def send_change_angle(value)

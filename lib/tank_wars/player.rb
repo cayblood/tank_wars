@@ -140,7 +140,7 @@ class Player < Chingu::GameObject
   end
 
   def send_shot
-    dispatch(:send_shot, @power, @target_angle)
+    dispatch(:send_shot, @target_angle, @power)
   end
 
   def send_angle(value)
