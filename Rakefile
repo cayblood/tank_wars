@@ -11,7 +11,7 @@ end
 
 desc "Run the game"
 task :run do
-	TankWars.new.show
+	TankWars.new('ses-thinkpad-w510.local').show
 end
 
 task :default => :run

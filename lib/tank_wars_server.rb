@@ -1,12 +1,9 @@
 require 'eventmachine'
 
-Space = 150
-
 class World
+  GAP_BETWEEN_PLAYERS = 150
   def initialize
-    #@next_id = 0
     @clients = {}
-    #@next_position = 0
   end
 
   def broadcast(message)
@@ -14,6 +11,15 @@ class World
       puts "sending #{message} to #{client.id}"
       client.send_data(message)
     end    
+  end
+
+  def next_free_position
+    (50...768).step(GAP_BETWEEN_PLAYERS).each do |xpos|
+      unless @clients.values.any? {|each| each.x == xpos }
+        return  xpos
+      end
+    end
+    raise "No more space available"
   end
 
   def put_tank_at(id, tank)
@@ -52,8 +58,7 @@ module Tank
     @id = $next_id
     $next_id += 1
     $world.put_tank_at(id, self)
-    @x = $next_position
-    $next_position += Space
+    @x = $world.next_free_position
     send_data("ASSIGN #{id}\n")
     broadcast_message("ANGLE", 270)
     $world.broadcast_positions
@@ -67,9 +72,9 @@ module Tank
   
   def receive_line(line)
     case line
-    when /^SHOOT (.*)$/
+    when /^FIRE (.*)$/
       angle, power = $1.split(" ")
-      broadcast_message("SHOT", angle, power)
+      broadcast_message("SHOT_FIRED", angle, power)
     when /^ANGLE (.*)$/
       angle = $1
       broadcast_message("ANGLE", angle)

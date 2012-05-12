@@ -23,6 +23,7 @@ class Player < Chingu::GameObject
     @server = options[:networking].server
     calculate_angle!
     @power = 25
+    @last_shot = Time.now - 5
 
     if me?
       self.input = {
@@ -30,7 +31,7 @@ class Player < Chingu::GameObject
         holding_right: :increase_angle,
         holding_up: :increase_power,
         holding_down: :decrease_power,
-        space: :send_shot
+        space: :fire
       }
     end
   end
@@ -133,7 +134,7 @@ class Player < Chingu::GameObject
   end
 
 
-  def shoot(angle, power)
+  def shot_fired(angle, power)
     play_shot_fired_sound
   end
 
@@ -146,14 +147,20 @@ class Player < Chingu::GameObject
     @gun_tip_x = @gun_base_x + line_width.round
     @gun_tip_y = @y + line_height.round
 
-    send_angle(@target_angle) if me?
+    notify_angle_change(@target_angle) if me?
   end
 
-  def send_shot
-    dispatch(:send_shot, @target_angle, @power)
+  def fire
+    return unless Time.now - @last_shot > 5
+    @last_shot = Time.now
+    notify_shot_fired
   end
 
-  def send_angle(value)
+  def notify_shot_fired
+    dispatch(:send_fire, @target_angle, @power)
+  end
+
+  def notify_angle_change(value)
     dispatch(:send_change_angle, value)
   end
 
