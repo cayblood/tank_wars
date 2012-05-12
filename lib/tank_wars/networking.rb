@@ -68,9 +68,15 @@ class TankWars
         when /^ANGLE (\d+) (\d+)$/
           @network.client.dispatch(:on_change_angle, $1.to_i, $2.to_i)
 
+        when /^SHOT (\d+) (\d+) (\d+)$/
+          @network.client.dispatch(:on_shot, $1.to_i, $2.to_i, $3.to_i)
+
         else
           puts "Unsupported message: #{line.inspect}"
         end
+      end
+
+      def send_shot(power, angle)
       end
 
       def send_change_angle(value)

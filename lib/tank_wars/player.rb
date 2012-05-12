@@ -139,6 +139,10 @@ class Player < Chingu::GameObject
     send_angle(@target_angle) if me?
   end
 
+  def send_shot
+    dispatch(:send_shot, @power, @target_angle)
+  end
+
   def send_angle(value)
     dispatch(:send_change_angle, value)
   end

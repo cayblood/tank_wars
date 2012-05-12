@@ -57,11 +57,17 @@ class TankWars < Chingu::Window
   end
 
   def on_change_angle(id, value)
-    # I know my own ID
+    # I know my own angle
     return if @self_id == id
 
     if player = @players[id]
       player.target_angle = value
+    end
+  end
+
+  def on_shot(id, angle, power)
+    if player = @players[id]
+      player.shoot(angle, power)
     end
   end
 end
