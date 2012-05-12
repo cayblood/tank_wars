@@ -34,12 +34,12 @@ module TankWars
         left.delete(id)
 
         @players[id] ||= Player.create(
-            :x => pos,
-            :id => id,
-            :player_number => id,
-            :target_angle => angle,
-            :is_me => (id == @self_id),
-            :networking => @networking
+          :x => pos,
+          :id => id,
+          :player_number => id,
+          :target_angle => angle,
+          :is_me => (id == @self_id),
+          :networking => @networking
         )
       end
 
@@ -66,4 +66,3 @@ module TankWars
     end
   end
 end
-
