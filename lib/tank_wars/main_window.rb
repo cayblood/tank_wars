@@ -10,7 +10,7 @@ OUR_PLAYER_NUMBER = 1
 module TankWars
   class MainWindow < Chingu::Window
     def initialize(host, port = 9876)
-      super(1024, 768, false)
+      super(1024, 768, true)
       self.input = {escape: :exit} # exits example on Escape
 
       @background = Background.create
@@ -22,7 +22,6 @@ module TankWars
     def update
       super
       @networking.client.run
-      @background.draw
       self.caption = "FPS: #{self.fps} ms since last tick: " +
           "#{self.milliseconds_since_last_tick}"
     end

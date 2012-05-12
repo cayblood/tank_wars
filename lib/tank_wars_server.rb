@@ -2,6 +2,7 @@ require 'eventmachine'
 
 class World
   GAP_BETWEEN_PLAYERS = 250
+  WORLD_WIDTH = 1024
 
   def initialize
     @clients = {}
@@ -15,7 +16,7 @@ class World
   end
 
   def next_free_position
-    valid_positions = (50...768).step(GAP_BETWEEN_PLAYERS).to_a
+    valid_positions = (50...WORLD_WIDTH).step(GAP_BETWEEN_PLAYERS).to_a
     valid_positions.shuffle.each do |xpos|
       unless @clients.values.any? { |each| each.x == xpos }
         return xpos
