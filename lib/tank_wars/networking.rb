@@ -5,14 +5,12 @@ Thread.abort_on_exception = true
 class TankWars
   class Networking
     PORT = 9876
-    attr_reader :client, :server
+    attr_accessor :server, :client
 
     def initialize(delegate)
       @client = EventEmitter.new(delegate)
-      @server = EMEmitter.new(self)
-
       @events = []
-      @thread = Thread.new(@channel) do |c|
+      @thread = Thread.new do
         EM.run do
           EM.connect('ses-thinkpad-w510.local', 9876, Client, self)
         end
@@ -25,8 +23,12 @@ class TankWars
         @events = []
       end
 
+      def proc_for(name, *args)
+        proc { @delegate.send(name, *args) }
+      end
+
       def dispatch(name, *args)
-        @events << proc { @delegate.send(name, *args) }
+        @events << proc_for(name, *args)
       end
 
       def run
@@ -37,9 +39,8 @@ class TankWars
     end
 
     class EMEmitter < EventEmitter
-      def dispatch(*args)
-        super
-        EM.schedule { run }
+      def dispatch(name, *args)
+        EM.next_tick { proc_for(name, *args).call }
       end
     end
 
@@ -49,21 +50,28 @@ class TankWars
       def initialize(network)
         super
         @network = network
+        @network.server = EMEmitter.new(self)
       end
 
       def receive_line(line)
         case line
         when /^ASSIGN (\d+)$/
-          @network.client.dispatch(:on_myself, $1.to_i)
+          @network.client.dispatch(:on_self_id, $1.to_i)
         when /^POSITIONS (.*?)$/
           clients = $1.split(" ").map do |client|
             id, pos = client.split(":").map(&:to_i)
           end
 
           @network.client.dispatch(:on_update_positions, clients)
+        when /^ANGLE (\d+) (\d+)$/
+          @network.client.dispatch(:on_change_angle, $1.to_i, $2.to_i)
         else
           puts "Unsupported message: #{line.inspect}"
         end
+      end
+
+      def send_change_angle(value)
+        send_data("ANGLE #{value}\n")
       end
     end
   end
