@@ -34,15 +34,18 @@ module TankWars
         shot_missed
       end
 
-      each_bounding_box_collision(Player) do |projectile, hostile_tank|
-        hostile_tank.death
-        @shooter.kill
-        destroy
-      end
+      check_collision
     end
 
     def shot_missed
       destroy
+    end
+
+    def check_collision
+      each_bounding_box_collision(Player) do |projectile, hostile_tank|
+        hostile_tank.killed_by(@shooter)
+        destroy
+      end
     end
 
     def update

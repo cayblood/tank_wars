@@ -12,7 +12,7 @@ module TankWars
     trait :bounding_box, :scale => 1.0
     trait :collision_detection
 
-    attr_accessor :x, :y, :width, :height, :blocked_on_left, :blocked_on_right
+    attr_accessor :x, :y, :width, :height, :blocked_on_left, :blocked_on_right, :id
     attr_reader :target_angle
 
     COLORS = [Gosu::Color::GRAY, Gosu::Color::GREEN, Gosu::Color::RED, Gosu::Color::BLUE]
@@ -28,9 +28,6 @@ module TankWars
       @x = options.fetch(:x, $window.width - ($window.width / 5 * @player_number) - (@width / 2))
       @gun_base_x = @x + (@width / 2)
       @y = 600
-
-      @kills = @deaths = 1
-
 
       @id = options[:id]
       @target_angle = options[:target_angle]
@@ -76,21 +73,9 @@ module TankWars
       self.x += 2 unless blocked_on_right
     end
 
-    def kill
-      puts "Player #{@player_number}: Yihaaaa!"
-      @kills += 1
-      show_score
-    end
-
-    def death
-      puts "Player #{@player_number}: oh noooo"
-      @deaths += 1
-      show_score
+    def killed_by(shooter)
+      notify_killed_by(shooter.id) if me?
       play_explosion_sound
-    end
-
-    def show_score
-      puts "Player #{@player_number} score #{@kills}/#{@deaths}"
     end
 
     private
@@ -105,6 +90,10 @@ module TankWars
 
     def notify_angle_change(value)
       dispatch(:send_change_angle, value)
+    end
+
+    def notify_killed_by(id)
+      dispatch(:send_killed_by, id)
     end
 
     def dispatch(name, *args)

@@ -49,6 +49,7 @@ module TankWars
 
       left.each do |id|
         player = @players.delete(id)
+        player.input = {}
         player.destroy
       end
     end
