@@ -1,0 +1,5 @@
+gem install gosu
+bundle
+rake run
+
+HAVE FUN!
