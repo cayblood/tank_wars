@@ -7,12 +7,12 @@ class TankWars
     PORT = 9876
     attr_accessor :server, :client
 
-    def initialize(delegate)
+    def initialize(host, port, delegate)
       @client = EventEmitter.new(delegate)
       @events = []
       @thread = Thread.new do
         EM.run do
-          EM.connect('ses-thinkpad-w510.local', 9876, Client, self)
+          EM.connect(host, port, Client, self)
         end
       end
     end

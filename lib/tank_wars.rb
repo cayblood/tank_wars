@@ -13,12 +13,12 @@ require 'tank_wars/background'
 OUR_PLAYER_NUMBER = 1
 
 class TankWars < Chingu::Window
-  def initialize
+  def initialize(host, port = 9876)
     super(1024, 768, false)
     self.input = { escape: :exit } # exits example on Escape
     
     @background = Background.create
-    @networking = Networking.new(self)
+    @networking = Networking.new(host, port, self)
 
     @players = {}
   end
