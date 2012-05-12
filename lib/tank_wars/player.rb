@@ -11,7 +11,7 @@ class Player < Chingu::GameObject
     super
     @width = 50
     @height = 20
-    @player_number = options[:player_number]
+    @player_number = options[:player_number] % COLORS.length + 1
     @x = options.fetch(:x, $window.width - ($window.width / 5 * @player_number) - (@width / 2))
     @gun_base_x = @x + (@width / 2)
     @y = 600
