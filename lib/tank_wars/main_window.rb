@@ -36,14 +36,14 @@ module TankWars
       clients.each do |id, pos, angle|
         left.delete(id)
 
-        @players[id] ||= Player.create(
-            :x => pos,
+        player = @players[id] ||= Player.create(
             :id => id,
             :player_number => id,
             :target_angle => angle,
             :is_me => (id == @self_id),
             :networking => @networking
         )
+        player.x = pos
       end
 
       left.each do |id|

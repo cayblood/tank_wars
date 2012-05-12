@@ -22,15 +22,14 @@ module TankWars
 
 
     def initialize(options)
+      @width = 50
       super
       #drawing logic
       @center_x = @center_y = 0
-      @width = 50
       @height = 20
       @player_number = options[:player_number] % COLORS.length + 1
       @color = COLORS[@player_number - 1]
       @x = options.fetch(:x, $window.width - ($window.width / 5 * @player_number) - (@width / 2))
-      update_position
       @y = 600
 
       @id = options[:id]
@@ -51,6 +50,11 @@ module TankWars
           holding_down: :decrease_angle,
         }
       end
+    end
+
+    def x=(x)
+      super
+      self.gun_base_x = @x + (@width / 2) #update_position
     end
 
     def me?
@@ -95,8 +99,8 @@ module TankWars
       dispatch(:send_change_angle, @target_angle)
     end
 
-    def notify_position_change
-      #dispatch(:send_position, @x)
+    def notify_position_change(x)
+      dispatch(:send_position, x)
     end
 
 
