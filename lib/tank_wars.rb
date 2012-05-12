@@ -12,7 +12,8 @@ require 'tank_wars/background'
 
 OUR_PLAYER_NUMBER = 1
 
-class TankWars < Chingu::Window
+module TankWars
+class MainWindow < Chingu::Window
   def initialize(host, port = 9876)
     super(1024, 768, false)
     self.input = { escape: :exit } # exits example on Escape
@@ -72,6 +73,6 @@ class TankWars < Chingu::Window
     end
   end
 end
-
+end
 require 'tank_wars/networking'
 

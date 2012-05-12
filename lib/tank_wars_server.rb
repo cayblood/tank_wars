@@ -32,22 +32,18 @@ class World
 
   def broadcast_positions
     messages = @clients.collect do |id, client|
-      "#{id}:#{client.x}"
+      "#{id}:#{client.x}:#{client.angle}"
     end
     message = "POSITIONS #{messages.join(" ")}\n"
     broadcast(message)
   end
 end
 
-$next_id = 0
-$clients = {}
-$next_position = 0
-
 $world = World.new
 
 module Tank
   include EM::Protocols::LineText2
-  attr_reader :x, :id
+  attr_reader :x, :id, :angle
 
   def broadcast_message(name, *args)
     message = "#{name} #{@id} #{args.join(" ")}\n"
@@ -60,7 +56,7 @@ module Tank
     $world.put_tank_at(id, self)
     @x = $world.next_free_position
     send_data("ASSIGN #{id}\n")
-    broadcast_message("ANGLE", 270)
+    @angle = 270
     $world.broadcast_positions
   end
 
@@ -73,11 +69,11 @@ module Tank
   def receive_line(line)
     case line
     when /^FIRE (.*)$/
-      angle, power = $1.split(" ")
-      broadcast_message("SHOT_FIRED", angle, power)
+      @angle, power = $1.split(" ")
+      broadcast_message("SHOT_FIRED", @angle, power)
     when /^ANGLE (.*)$/
-      angle = $1
-      broadcast_message("ANGLE", angle)
+      @angle = $1
+      broadcast_message("ANGLE", @angle)
     else
       puts "unsupported message #{line.inspect}"
     end
