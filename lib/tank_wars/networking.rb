@@ -4,7 +4,6 @@ Thread.abort_on_exception = true
 
 module TankWars
   class Networking
-    PORT = 9876
     attr_accessor :server, :client
 
     def initialize(host, port, delegate)
