@@ -1,5 +1,5 @@
 source "http://rubygems.org"
-gem "chingu", "~> 0.8.1"
+gem "chingu", :path => "vendor/chingu"
 
 group :development do
 	gem "rspec", "~> 2.8.0"
