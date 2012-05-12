@@ -18,7 +18,7 @@ class TankWars < Chingu::Window
     @background = Background.create
     @player1 = Player.create(:x => 400, :y => 600, :image => Image["tank2.gif"])
     @player2 = Player.create(:x => 200, :y => 600, :image => Image["tank2.gif"])
-    @player1.input = { :holding_left => :decrease_angle, :holding_right => :increase_angle }
+    @player1.input = { :holding_left => :move_left, :holding_right => :move_right }
     @player2.factor_x = -1
   end
   
