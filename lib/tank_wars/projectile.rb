@@ -1,4 +1,4 @@
-class Shell < Chingu::GameObject
+class Projectile < Chingu::GameObject
   traits :collision_detection, :bounding_circle
 
   def initialize(options)
