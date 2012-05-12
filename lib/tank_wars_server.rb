@@ -14,7 +14,7 @@ class World
   end
 
   def next_free_position
-    (0...768).step(GAP_BETWEEN_PLAYERS).each do |xpos|
+    (50...768).step(GAP_BETWEEN_PLAYERS).each do |xpos|
       unless @clients.values.any? {|each| each.x == xpos }
         return  xpos
       end
@@ -72,9 +72,9 @@ module Tank
   
   def receive_line(line)
     case line
-    when /^SHOOT (.*)$/
+    when /^FIRE (.*)$/
       angle, power = $1.split(" ")
-      broadcast_message("SHOT", angle, power)
+      broadcast_message("SHOT_FIRED", angle, power)
     when /^ANGLE (.*)$/
       angle = $1
       broadcast_message("ANGLE", angle)
