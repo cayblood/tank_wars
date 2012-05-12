@@ -15,19 +15,22 @@ class Player < Chingu::GameObject
   attr_reader :target_angle
 
   COLORS = [Gosu::Color::GRAY, Gosu::Color::GREEN, Gosu::Color::RED, Gosu::Color::BLUE]
-  GUN_LENGTH = 20
+
 
   def initialize(options)
     super
+    #drawing logic
     @width = 50
     @height = 20
-    @id = options[:id]
     @player_number = options[:player_number] % COLORS.length + 1
+    @color = COLORS[@player_number - 1]
     @x = options.fetch(:x, $window.width - ($window.width / 5 * @player_number) - (@width / 2))
     @gun_base_x = @x + (@width / 2)
     @y = 600
-    @color = COLORS[@player_number - 1]
-    @target_angle = 270
+
+
+    @id = options[:id]
+    @target_angle = 225
     @server = options[:networking].server
     calculate_angle!
     @power = 25
@@ -73,12 +76,7 @@ class Player < Chingu::GameObject
   private
 
   def calculate_angle!
-    radians = @target_angle * Math::PI / 180
-    line_width = GUN_LENGTH * Math.cos(radians)
-    line_height = GUN_LENGTH * Math.sin(radians)
-    @gun_tip_x = @gun_base_x + line_width.round
-    @gun_tip_y = @y + line_height.round
-
+    @radians = @target_angle * Math::PI / 180
     notify_angle_change(@target_angle) if me?
   end
 
