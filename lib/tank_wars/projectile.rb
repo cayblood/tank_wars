@@ -1,10 +1,10 @@
 module TankWars
   class Projectile < Chingu::GameObject
-    traits :collision_detection, :bounding_circle
+    traits :collision_detection, :bounding_box
     attr_accessor :v0, :a0, :t0, :x0, :y0, :x, :y, :elev
 
-    PIXELS_PER_METER = 75 / 7.93 # M1 Abrams hull length
-    G = 9.8 # earth gravity is 9.8 m/sˆ2
+    PIXELS_PER_METER = 75 / 7.93   # M1 Abrams hull length
+    G = 9.8                        # earth gravity is 9.8 m/sˆ2
 
     def initialize(options)
       options[:image] = Image["shell.png"]
@@ -18,7 +18,7 @@ module TankWars
       @y_delta = @v0 * Math.sin(@a0)
       @elevation = options[:elevation]
 
-      cache_bounding_circle # This does a lot for performance
+      cache_bounding_box # This does a lot for performance
     end
 
     def draw
@@ -28,6 +28,12 @@ module TankWars
 
       if @y >= @elevation
         shot_missed
+      end
+
+      each_bounding_box_collision(Player) do |projectile, player|
+        puts "taste THIS"
+        player.hit
+        destroy
       end
 
       super

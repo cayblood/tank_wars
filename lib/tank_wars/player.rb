@@ -74,6 +74,9 @@ module TankWars
       self.x += 2 unless blocked_on_right
     end
 
+    def hit
+      puts "tank, but no tank"
+    end
     private
 
     def calculate_angle!
