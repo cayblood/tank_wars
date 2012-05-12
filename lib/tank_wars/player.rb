@@ -86,6 +86,7 @@ module TankWars
       puts "Player #{@player_number}: oh noooo"
       @deaths += 1
       show_score
+      play_explosion_sound
     end
 
     def show_score
