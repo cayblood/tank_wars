@@ -36,5 +36,4 @@ PLATFORMS
 DEPENDENCIES
   chingu!
   cucumber (~> 1.1.4)
-  gosu
   rspec (~> 2.8.0)
