@@ -5,7 +5,7 @@ class Player < Chingu::GameObject
   attr_accessor :x, :y, :width, :height, :blocked_on_left, :blocked_on_right
 
   COLORS = [Gosu::Color::GRAY, Gosu::Color::GREEN, Gosu::Color::RED, Gosu::Color::BLUE]
-  GUN_LENGTH = 30
+  GUN_LENGTH = 20
 
   def initialize(options)
     super
