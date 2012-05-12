@@ -32,25 +32,35 @@ class TankWars < Chingu::Window
   end
 
   # Events
-  def on_myself(id)
-    @myself = id
+  def on_self_id(id)
+    @self_id = id
   end
 
   def on_update_positions(clients)
     left = @players.keys
     clients.each do |id, pos|
       left.delete(id)
-      player = @players[id] ||= Player.create(:player_number => id)
 
-      if id == @myself
-        player.input = { holding_left: :decrease_angle, holding_right: :increase_angle }
-      end
+      @players[id] ||= Player.create(
+        :id => id,
+        :player_number => id,
+        :is_me => (id == @self_id),
+        :networking => @networking
+      )
     end
 
     left.each do |id|
       player = @players.delete(id)
       player.destroy
     end
+  end
+
+  def on_change_angle(id, value)
+    # I know my own ID
+    return if @self_id == id
+
+    player = @players[id]
+    player.target_angle = value if player
   end
 end
 
