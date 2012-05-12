@@ -29,6 +29,8 @@ module TankWars
       @gun_base_x = @x + (@width / 2)
       @y = 600
 
+      @kills = @deaths = 1
+
 
       @id = options[:id]
       @target_angle = options[:target_angle]
@@ -74,11 +76,23 @@ module TankWars
       self.x += 2 unless blocked_on_right
     end
 
-    def hit
-      puts "tank, but no tank"
+    def kill
+      puts "Player #{@player_number}: Yihaaaa!"
+      @kills += 1
+      show_score
     end
-    private
 
+    def death
+      puts "Player #{@player_number}: oh noooo"
+      @deaths += 1
+      show_score
+    end
+
+    def show_score
+      puts "Player #{@player_number} score #{@kills}/#{@deaths}"
+    end
+
+    private
     def calculate_angle!
       @radians = @target_angle * Math::PI / 180
       notify_angle_change(@target_angle) if me?
