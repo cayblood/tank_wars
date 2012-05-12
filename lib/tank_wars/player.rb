@@ -1,4 +1,12 @@
+require 'tank_wars/player_draw'
+require 'tank_wars/player_sound'
+require 'tank_wars/player_shooting'
+
 class Player < Chingu::GameObject
+  include PlayerDraw
+  include PlayerSound
+  include PlayerShooting
+
   trait :bounding_box, :scale => 1.0
   trait :collision_detection
   trait :timer
@@ -7,19 +15,22 @@ class Player < Chingu::GameObject
   attr_reader :target_angle
 
   COLORS = [Gosu::Color::GRAY, Gosu::Color::GREEN, Gosu::Color::RED, Gosu::Color::BLUE]
-  GUN_LENGTH = 20
+
 
   def initialize(options)
     super
+    #drawing logic
     @width = 50
     @height = 20
-    @id = options[:id]
     @player_number = options[:player_number] % COLORS.length + 1
+    @color = COLORS[@player_number - 1]
     @x = options.fetch(:x, $window.width - ($window.width / 5 * @player_number) - (@width / 2))
     @gun_base_x = @x + (@width / 2)
     @y = 600
-    @color = COLORS[@player_number - 1]
-    @target_angle = 270
+
+
+    @id = options[:id]
+    @target_angle = 225
     @server = options[:networking].server
     calculate_angle!
     @power = 25
@@ -28,34 +39,17 @@ class Player < Chingu::GameObject
 
     if me?
       self.input = {
-        holding_left: :decrease_angle,
-        holding_right: :increase_angle,
-        holding_up: :increase_power,
-        holding_down: :decrease_power,
-        space: :fire
+          holding_left: :decrease_angle,
+          holding_right: :increase_angle,
+          holding_up: :increase_power,
+          holding_down: :decrease_power,
+          space: :fire
       }
     end
   end
 
   def me?
     options[:is_me]
-  end
-
-  def draw_gun
-    $window.draw_line(@gun_base_x, @y, @color, @gun_tip_x, @gun_tip_y, @color)
-  end
-
-  def draw_power
-    @power_text = Chingu::Text.new(@power.to_s, x: @x + 13, y: @y, zorder: 1, font: "Arial", size: 23)
-    @power_text.x = @gun_base_x + ((@power_text.width - @width ) / 2)
-    @power_text.draw
-  end
-
-  def draw
-    @rect = Chingu::Rect.new(@x, @y, @width, @height)
-    $window.fill_rect(@rect, @color, 1)
-    draw_gun
-    draw_power
   end
 
   def update
@@ -79,82 +73,11 @@ class Player < Chingu::GameObject
     self.x += 2 unless blocked_on_right
   end
 
-  def increase_angle
-    if @target_angle < 360
-      @target_angle += 1
-      calculate_angle!
-      play_select_sound
-    end
-  end
-
-  def play_select_sound
-    if @select_sound
-      unless @select_sound.playing?
-        @select_sound = Sound["select.wav"].play
-      end
-    else
-      @select_sound = Sound["select.wav"].play
-    end
-  end
-
-  def play_power_sound
-    if @power_sound
-      unless @power_sound.playing?
-        @power_sound = Sound["power.wav"].play
-      end
-    else
-      @power_sound = Sound["power.wav"].play
-    end
-  end
-
-  def play_shot_fired_sound
-    Sound["shot_fired.wav"].play
-  end
-
-  def decrease_angle
-    if @target_angle > 180
-      @target_angle -= 1
-      calculate_angle!
-      play_select_sound
-    end
-  end
-
-  def target_angle=(value)
-    @target_angle = value
-    calculate_angle!
-  end
-
-  def increase_power
-    @power += 1 unless @power >= 100
-    play_power_sound
-  end
-
-  def decrease_power
-    @power -= 1 unless @power <= 0
-    play_power_sound
-  end
-
-
-  def shot_fired(angle, power)
-    play_shot_fired_sound
-  end
-
   private
 
   def calculate_angle!
-    radians = @target_angle * Math::PI / 180
-    line_width = GUN_LENGTH * Math.cos(radians)
-    line_height = GUN_LENGTH * Math.sin(radians)
-    @gun_tip_x = @gun_base_x + line_width.round
-    @gun_tip_y = @y + line_height.round
-
+    @radians = @target_angle * Math::PI / 180
     notify_angle_change(@target_angle) if me?
-  end
-
-  def fire
-    return unless Time.now - @last_shot > @cooldown
-    @last_shot = Time.now
-    notify_shot_fired
   end
 
   def notify_shot_fired
