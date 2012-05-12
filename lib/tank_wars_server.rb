@@ -1,7 +1,8 @@
 require 'eventmachine'
 
 class World
-  GAP_BETWEEN_PLAYERS = 150
+  GAP_BETWEEN_PLAYERS = 250
+
   def initialize
     @clients = {}
   end
@@ -10,13 +11,13 @@ class World
     @clients.values.each do |client|
       puts "sending #{message} to #{client.id}"
       client.send_data(message)
-    end    
+    end
   end
 
   def next_free_position
     (50...768).step(GAP_BETWEEN_PLAYERS).each do |xpos|
-      unless @clients.values.any? {|each| each.x == xpos }
-        return  xpos
+      unless @clients.values.any? { |each| each.x == xpos }
+        return xpos
       end
     end
     raise "No more space available"
@@ -31,7 +32,7 @@ class World
   end
 
   def broadcast_positions
-    messages = @clients.collect do |id, client|
+    messages = @clients.select {|id, client| client.x }.collect do |id, client|
       "#{id}:#{client.x}:#{client.angle}"
     end
     message = "POSITIONS #{messages.join(" ")}\n"
@@ -39,6 +40,7 @@ class World
   end
 end
 
+$next_id = 0
 $world = World.new
 
 module Tank
@@ -53,9 +55,13 @@ module Tank
   def post_init
     @id = $next_id
     $next_id += 1
-    $world.put_tank_at(id, self)
+    send_data("ASSIGN #{@id}\n")
+    $world.put_tank_at(@id, self)
+    respawn
+  end
+
+  def respawn
     @x = $world.next_free_position
-    send_data("ASSIGN #{id}\n")
     @angle = 270
     $world.broadcast_positions
   end
@@ -65,17 +71,26 @@ module Tank
     $world.remove_tank_at(@id)
     $world.broadcast_positions
   end
-  
+
   def receive_line(line)
     case line
-    when /^FIRE (.*)$/
-      @angle, power = $1.split(" ")
-      broadcast_message("SHOT_FIRED", @angle, power)
-    when /^ANGLE (.*)$/
-      @angle = $1
-      broadcast_message("ANGLE", @angle)
-    else
-      puts "unsupported message #{line.inspect}"
+      when /^FIRE (.*)$/
+        @angle, power = $1.split(" ")
+        broadcast_message("SHOT_FIRED", @angle, power)
+      when /^ANGLE (.*)$/
+        @angle = $1
+        broadcast_message("ANGLE", @angle)
+      when /^KILLED_BY (.*)$/
+        puts "#{line} received"
+        killer_id = $1
+        #$world.remove_tank_at(@id)
+        @x = nil
+        $world.broadcast_positions
+        EM::add_timer(3) do
+          respawn
+        end
+      else
+        puts "unsupported message #{line.inspect}"
     end
   end
 end
