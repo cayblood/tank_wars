@@ -1,4 +1,5 @@
 require 'tank_wars/projectile'
+require 'tank_wars/projectile_explosion'
 require 'tank_wars/player_draw'
 require 'tank_wars/player_sound'
 require 'tank_wars/player_shooting'
@@ -39,11 +40,11 @@ module TankWars
 
       if me?
         self.input = {
-            holding_left: :decrease_angle,
-            holding_right: :increase_angle,
-            holding_up: :increase_power,
-            holding_down: :decrease_power,
-            space: :fire
+          holding_left: :decrease_angle,
+          holding_right: :increase_angle,
+          holding_up: :increase_power,
+          holding_down: :decrease_power,
+          space: :fire
         }
       end
     end
@@ -75,6 +76,11 @@ module TankWars
 
     def killed_by(shooter)
       notify_killed_by(shooter.id) if me?
+      options = {
+        x: @x,
+        y: @y
+      }
+      ProjectileExplosion.create(options)
       play_explosion_sound
     end
 
