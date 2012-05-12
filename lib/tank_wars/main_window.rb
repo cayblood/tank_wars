@@ -7,7 +7,7 @@ require 'tank_wars/networking'
 module TankWars
   class MainWindow < Chingu::Window
     def initialize(host, port = 9876)
-      super(1024, 768, true)
+      super(1024, 768, false)
       self.input = {escape: :exit} # exits example on Escape
 
       @background = Background.create

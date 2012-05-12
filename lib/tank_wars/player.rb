@@ -35,7 +35,7 @@ module TankWars
       @target_angle = options[:target_angle]
       @server = options[:networking].server
       calculate_angle!
-      @power = 25
+      @power = 0
       @last_shot = Time.now - 5
       @cooldown = 1
 
@@ -43,9 +43,8 @@ module TankWars
         self.input = {
           holding_left: :decrease_angle,
           holding_right: :increase_angle,
-          holding_up: :increase_power,
-          holding_down: :decrease_power,
-          space: :fire
+          holding_space: :charge,
+          released_space: :fire,
         }
       end
     end

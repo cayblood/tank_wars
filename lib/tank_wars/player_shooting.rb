@@ -46,10 +46,20 @@ module PlayerShooting
     play_shot_fired_sound
   end
 
-  def fire
+  def charge
     return unless Time.now - @last_shot > @cooldown
-    @last_shot = Time.now
+
+    @charging ||= 0
+    @charging += $window.milliseconds_since_last_tick
+    @power = [(@charging ** 2) / (100 ** 2), 100].min
+  end
+
+  def fire
+    return unless @charging
     notify_shot_fired
+    @last_shot = Time.now
+    @charging = nil
+    @power = 0
   end
 end
 end
