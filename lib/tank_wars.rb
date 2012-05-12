@@ -38,13 +38,14 @@ class TankWars < Chingu::Window
 
   def on_update_positions(clients)
     left = @players.keys
-    clients.each do |id, pos|
+    clients.each do |id, pos, angle|
       left.delete(id)
 
       @players[id] ||= Player.create(
         :x => pos,
         :id => id,
         :player_number => id,
+        :target_angle => angle,
         :is_me => (id == @self_id),
         :networking => @networking
       )

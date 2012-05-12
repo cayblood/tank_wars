@@ -30,7 +30,7 @@ class Player < Chingu::GameObject
 
 
     @id = options[:id]
-    @target_angle = 225
+    @target_angle = options[:target_angle]
     @server = options[:networking].server
     calculate_angle!
     @power = 25

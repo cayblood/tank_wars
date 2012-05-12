@@ -14,7 +14,6 @@ class Projectile < Chingu::GameObject
     @x0 = options[:x]
     @y0 = options[:y]
     @x_delta = @v0 * Math.cos(@a0) * PIXELS_PER_METER
-    puts "x_delta = #{@x_delta}"
     @y_delta = @v0 * Math.sin(@a0)
     @elevation = options[:elevation]
 
@@ -25,7 +24,16 @@ class Projectile < Chingu::GameObject
     @t += $window.milliseconds_since_last_tick / 1000.0
     @x = (@x0 + (@x_delta * @t)).round
     @y = (@y0 + (((@y_delta * @t) + (0.5 * G * @t * @t)) * PIXELS_PER_METER)).round
+
+    if @y >= @elevation
+      shot_missed
+    end
+
     super
+  end
+
+  def shot_missed
+    destroy
   end
 
   def update
