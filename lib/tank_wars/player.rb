@@ -22,6 +22,7 @@ module TankWars
     def initialize(options)
       super
       #drawing logic
+      @center_x = @center_y = 0
       @width = 50
       @height = 20
       @player_number = options[:player_number] % COLORS.length + 1
