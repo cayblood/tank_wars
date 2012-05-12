@@ -24,5 +24,9 @@ module TankWars
       Sound["shot_fired.wav"].play
     end
 
+    def play_explosion_sound
+      Sound["explosion.wav"].play
+    end
   end
 end
+
