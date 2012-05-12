@@ -24,7 +24,7 @@ class TankWars < Chingu::Window
     (1..4).each do |player_number|
       @players << Player.create(player_number: player_number)
       if player_number == OUR_PLAYER_NUMBER
-        @players[player_number - 1].input = { holding_left: :increase_angle, holding_right: :decrease_angle }
+        @players[player_number - 1].input = { holding_left: :decrease_angle, holding_right: :increase_angle }
       end
     end
   end
