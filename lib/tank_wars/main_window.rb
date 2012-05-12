@@ -4,9 +4,6 @@ require 'tank_wars/player'
 require 'tank_wars/background'
 require 'tank_wars/networking'
 
-OUR_PLAYER_NUMBER = 1
-
-
 module TankWars
   class MainWindow < Chingu::Window
     def initialize(host, port = 9876)
@@ -37,12 +34,12 @@ module TankWars
         left.delete(id)
 
         @players[id] ||= Player.create(
-            :x => pos,
-            :id => id,
-            :player_number => id,
-            :target_angle => angle,
-            :is_me => (id == @self_id),
-            :networking => @networking
+          :x => pos,
+          :id => id,
+          :player_number => id,
+          :target_angle => angle,
+          :is_me => (id == @self_id),
+          :networking => @networking
         )
       end
 
@@ -69,4 +66,3 @@ module TankWars
     end
   end
 end
-
