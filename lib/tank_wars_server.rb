@@ -1,7 +1,7 @@
 require 'eventmachine'
 
 class World
-  GAP_BETWEEN_PLAYERS = 150
+  GAP_BETWEEN_PLAYERS = 250
   def initialize
     @clients = {}
   end
