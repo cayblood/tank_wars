@@ -13,13 +13,18 @@ require 'tank_wars/background'
 class TankWars < Chingu::Window
   def initialize
     super(1024, 768, false)
-    self.input = { :escape => :exit } # exits example on Escape
+    self.input = { escape: :exit } # exits example on Escape
     
     @background = Background.create
-    @player1 = Player.create(:x => 400, :y => 600, :image => Image["tank2.gif"])
-    @player2 = Player.create(:x => 200, :y => 600, :image => Image["tank2.gif"])
-    @player1.input = { :holding_left => :move_left, :holding_right => :move_right }
-    @player2.factor_x = -1
+
+    # initialize players
+    @players = []
+    (1..4).each do |player_number|
+      @players << Player.create(player_number: player_number)
+      if player_number == 1
+        @players[player_number - 1].input = { holding_left: :move_left, holding_right: :move_right }
+      end
+    end
   end
   
   def update
