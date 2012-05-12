@@ -24,6 +24,7 @@ class Player < Chingu::GameObject
     calculate_angle!
     @power = 25
     @last_shot = Time.now - 5
+    @cooldown = 1
 
     if me?
       self.input = {
@@ -151,7 +152,7 @@ class Player < Chingu::GameObject
   end
 
   def fire
-    return unless Time.now - @last_shot > 5
+    return unless Time.now - @last_shot > @cooldown
     @last_shot = Time.now
     notify_shot_fired
   end
