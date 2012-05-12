@@ -42,6 +42,7 @@ class TankWars < Chingu::Window
       left.delete(id)
 
       @players[id] ||= Player.create(
+        :x => pos,
         :id => id,
         :player_number => id,
         :is_me => (id == @self_id),
