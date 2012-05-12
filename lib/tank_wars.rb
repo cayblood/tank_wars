@@ -16,13 +16,13 @@ class TankWars < Chingu::Window
   def initialize(host, port = 9876)
     super(1024, 768, false)
     self.input = { escape: :exit } # exits example on Escape
-    
+
     @background = Background.create
     @networking = Networking.new(host, port, self)
 
     @players = {}
   end
-  
+
   def update
     super
     @networking.client.run
@@ -65,9 +65,9 @@ class TankWars < Chingu::Window
     end
   end
 
-  def on_shot(id, angle, power)
+  def on_shot_fired(id, angle, power)
     if player = @players[id]
-      player.shoot(angle, power)
+      player.shot_fired(angle, power)
     end
   end
 end
