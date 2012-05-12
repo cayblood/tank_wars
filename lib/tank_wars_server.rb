@@ -15,7 +15,8 @@ class World
   end
 
   def next_free_position
-    (50...768).step(GAP_BETWEEN_PLAYERS).each do |xpos|
+    valid_positions = (50...768).step(GAP_BETWEEN_PLAYERS).to_a
+    valid_positions.shuffle.each do |xpos|
       unless @clients.values.any? { |each| each.x == xpos }
         return xpos
       end
