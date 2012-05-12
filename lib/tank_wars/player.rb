@@ -29,7 +29,8 @@ class Player < Chingu::GameObject
         holding_left: :decrease_angle,
         holding_right: :increase_angle,
         holding_up: :increase_power,
-        holding_down: :decrease_power
+        holding_down: :decrease_power,
+        space: :send_shot
       }
     end
   end
@@ -104,6 +105,10 @@ class Player < Chingu::GameObject
     end
   end
 
+  def play_shot_fired_sound
+    Sound["shot_fired.wav"].play
+  end
+
   def decrease_angle
     if @target_angle > 180
       @target_angle -= 1
@@ -125,6 +130,11 @@ class Player < Chingu::GameObject
   def decrease_power
     @power -= 1 unless @power <= 0
     play_power_sound
+  end
+
+
+  def shoot(angle, power)
+    play_shot_fired_sound
   end
 
   private
@@ -150,4 +160,6 @@ class Player < Chingu::GameObject
   def dispatch(name, *args)
     @server.dispatch(name, *args)
   end
+
+
 end
