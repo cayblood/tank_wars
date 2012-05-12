@@ -27,6 +27,8 @@ module TankWars
       @x = (@x0 + (@x_delta * @t)).round
       @y = (@y0 + (((@y_delta * @t) + (0.5 * G * @t * @t)) * PIXELS_PER_METER)).round
 
+      super
+
       if @y >= @elevation
         shot_missed
       end
@@ -36,7 +38,6 @@ module TankWars
         @shooter.kill
         destroy
       end
-      super
     end
 
     def shot_missed
