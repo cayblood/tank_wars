@@ -15,7 +15,7 @@ module TankWars
     trait :bounding_box, :scale => 1.0
     trait :collision_detection
 
-    attr_accessor :x, :y, :width, :height, :blocked_on_left, :blocked_on_right, :id
+    attr_accessor :x, :y, :gun_base_x, :width, :height, :blocked_on_left, :blocked_on_right, :id
     attr_reader :target_angle
 
     COLORS = [Gosu::Color::GRAY, Gosu::Color::GREEN, Gosu::Color::RED, Gosu::Color::BLUE]
@@ -30,7 +30,7 @@ module TankWars
       @player_number = options[:player_number] % COLORS.length + 1
       @color = COLORS[@player_number - 1]
       @x = options.fetch(:x, $window.width - ($window.width / 5 * @player_number) - (@width / 2))
-      @gun_base_x = @x + (@width / 2)
+      update_position
       @y = 600
 
       @id = options[:id]
@@ -96,7 +96,7 @@ module TankWars
     end
 
     def notify_position_change
-      dispatch(:send_position, @x)
+      #dispatch(:send_position, @x)
     end
 
 
