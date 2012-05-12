@@ -12,13 +12,19 @@ class Player < Chingu::GameObject
     @height = 20
     @player_number = options[:player_number]
     @x = $window.width - ($window.width / 5 * @player_number) - (@width / 2)
+    @cannon_x = @x + (@width / 2)
     @y = 600
     @color = COLORS[@player_number - 1]
+  end
+
+  def draw_cannon
+    $window.draw_line(@cannon_x, @y, @color, @cannon_x - 30, @y - 30, @color)
   end
 
   def draw
     @rect = Chingu::Rect.new(@x, @y, @width, @height)
     $window.fill_rect(@rect, @color, 1)
+    draw_cannon
   end
 
   def update
@@ -35,17 +41,16 @@ class Player < Chingu::GameObject
   end
 
   def move_left
-    self.x -= 1 unless blocked_on_left
+    self.x -= 2 unless blocked_on_left
   end
 
   def move_right
-    self.x += 1 unless blocked_on_right
+    self.x += 2 unless blocked_on_right
   end
 
   def increase_angle
   end
 
   def decrease_angle
-
   end
 end
