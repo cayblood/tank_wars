@@ -60,7 +60,7 @@ class TankWars
 
         when /^POSITIONS (.*?)$/
           clients = $1.split(" ").map do |client|
-            id, pos = client.split(":").map(&:to_i)
+            id, pos, angle = client.split(":").map(&:to_i)
           end
 
           @network.client.dispatch(:on_update_positions, clients)
