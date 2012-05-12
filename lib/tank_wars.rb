@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'bundler/setup'
-
 require 'chingu'
 include Gosu
 
@@ -19,9 +16,10 @@ class TankWars < Chingu::Window
     self.input = { :escape => :exit } # exits example on Escape
     
     @background = Background.create
-    @player = Player.create(:x => 200, :y => 200, :image => Image["spaceship.png"])
-    @player.input = { :holding_left => :move_left, :holding_right => :move_right, 
-                      :holding_up => :move_up, :holding_down => :move_down }
+    @player1 = Player.create(:x => 400, :y => 600, :image => Image["tank2.gif"])
+    @player2 = Player.create(:x => 200, :y => 600, :image => Image["tank2.gif"])
+    @player1.input = { :holding_left => :decrease_angle, :holding_right => :increase_angle }
+    @player2.factor_x = -1
   end
   
   def update
