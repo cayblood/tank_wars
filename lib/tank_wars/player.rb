@@ -3,12 +3,14 @@ require 'tank_wars/projectile_explosion'
 require 'tank_wars/player_draw'
 require 'tank_wars/player_sound'
 require 'tank_wars/player_shooting'
+require 'tank_wars/player_move'
 
 module TankWars
   class Player < Chingu::GameObject
     include PlayerDraw
     include PlayerSound
     include PlayerShooting
+    include PlayerMove
 
     trait :bounding_box, :scale => 1.0
     trait :collision_detection
@@ -41,10 +43,12 @@ module TankWars
 
       if me?
         self.input = {
-          holding_left: :decrease_angle,
-          holding_right: :increase_angle,
+          holding_left: :move_left,
+          holding_right: :move_right,
           holding_space: :charge,
           released_space: :fire,
+          holding_up: :increase_angle,
+          holding_down: :decrease_angle,
         }
       end
     end
@@ -66,13 +70,6 @@ module TankWars
       draw
     end
 
-    def move_left
-      self.x -= 2 unless blocked_on_left
-    end
-
-    def move_right
-      self.x += 2 unless blocked_on_right
-    end
 
     def killed_by(shooter)
       notify_killed_by(shooter.id) if me?
@@ -87,16 +84,21 @@ module TankWars
     private
     def calculate_angle!
       @radians = @target_angle * Math::PI / 180
-      notify_angle_change(@target_angle) if me?
+      notify_angle_change if me?
     end
 
     def notify_shot_fired
       dispatch(:send_fire, @target_angle, @power)
     end
 
-    def notify_angle_change(value)
-      dispatch(:send_change_angle, value)
+    def notify_angle_change
+      dispatch(:send_change_angle, @target_angle)
     end
+
+    def notify_position_change
+      dispatch(:send_position, @x)
+    end
+
 
     def notify_killed_by(id)
       dispatch(:send_killed_by, id)
