@@ -36,7 +36,7 @@ module PlayerShooting
   def shot_fired(angle, power)
     options = {
       initial_angle: angle,
-      initial_velocity: power,
+      initial_power: power,
       x: @gun_tip_x,
       y: @gun_tip_y,
       image: Image["shell.png"],

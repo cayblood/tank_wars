@@ -10,7 +10,8 @@ module TankWars
       @shooter = shooter
       options[:image] = Image["shell.png"]
       super options
-      @v0 = options[:initial_velocity]
+      @power = options[:initial_power]
+      @v0 = @power / (100.0 / 30.0)
       @a0 = options[:initial_angle] * Math::PI / 180
       @t = 0
       @x0 = options[:x]
