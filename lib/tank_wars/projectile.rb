@@ -5,9 +5,10 @@ class Projectile < Chingu::GameObject
   PIXELS_PER_METER = 75 / 7.93   # M1 Abrams hull length
   G = 9.8                        # earth gravity is 9.8 m/sˆ2
 
-  def initialize(options)
+  def initialize(shooter, options)
+    @shooter = shooter
     options[:image] = Image["shell.png"]
-    super
+    super options
     @v0 = options[:initial_velocity]
     @a0 = options[:initial_angle] * Math::PI / 180
     @t = 0
@@ -29,9 +30,9 @@ class Projectile < Chingu::GameObject
       shot_missed
     end
 
-    each_bounding_box_collision(Player) do |projectile, player|
-      puts "taste THIS"
-      player.hit
+    each_bounding_box_collision(Player) do |projectile, hostile_tank|
+      hostile_tank.death
+      @shooter.kill
       destroy
     end
     super

@@ -40,7 +40,7 @@ module PlayerShooting
       image: Image["shell.png"],
       elevation: 600,
     }
-    Projectile.create(options)
+    Projectile.create(self, options)
     play_shot_fired_sound
   end
 
