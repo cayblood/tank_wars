@@ -10,6 +10,8 @@ Sound.autoload_dirs << File.join(ROOT_DIR, "media")
 require 'tank_wars/player'
 require 'tank_wars/background'
 
+OUR_PLAYER_NUMBER = 1
+
 class TankWars < Chingu::Window
   def initialize
     super(1024, 768, false)
@@ -21,8 +23,8 @@ class TankWars < Chingu::Window
     @players = []
     (1..4).each do |player_number|
       @players << Player.create(player_number: player_number)
-      if player_number == 1
-        @players[player_number - 1].input = { holding_left: :move_left, holding_right: :move_right }
+      if player_number == OUR_PLAYER_NUMBER
+        @players[player_number - 1].input = { holding_left: :increase_angle, holding_right: :decrease_angle }
       end
     end
   end
