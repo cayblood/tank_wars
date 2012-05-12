@@ -14,7 +14,6 @@ class Projectile < Chingu::GameObject
     @x0 = options[:x]
     @y0 = options[:y]
     @x_delta = @v0 * Math.cos(@a0) * PIXELS_PER_METER
-    puts "x_delta = #{@x_delta}"
     @y_delta = @v0 * Math.sin(@a0)
     @elevation = options[:elevation]
 
