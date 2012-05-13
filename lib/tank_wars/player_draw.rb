@@ -10,17 +10,10 @@ module TankWars
       $window.draw_line(@gun_base_x, @y, @color, @gun_tip_x, @gun_tip_y, @color)
     end
 
-    def update
-      #@power_text = Chingu::Text.new(@power.to_s, zorder: 1, font: "Arial", size: 23)
-      #@power_text.x = @power_text.x = @gun_base_x + ((@power_text.width - @width) / 2)
-      @power_text.y = @y
-    end
-
     def draw
       @rect = Chingu::Rect.new(@x, @y, @width, @height)
       $window.fill_rect(@rect, @color, 1)
       draw_gun
-      #@power_text.draw if @power_text
     end
   end
 end
