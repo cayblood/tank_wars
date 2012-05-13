@@ -4,14 +4,10 @@ require 'bundler/setup'
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "lib")
 require 'tank_wars'
 
-desc "Run rspec tests"
-task :spec do
-	
-end
-
 desc "Run the game"
 task :run do
-	TankWars::MainWindow.new('ses-thinkpad-w510.local').show
+  server_address = ENV['TANK_WARS_SERVER'] || 'localhost'
+	TankWars::MainWindow.new(server_address).show
 end
 
 task :default => :run
