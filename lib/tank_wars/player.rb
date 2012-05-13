@@ -75,16 +75,18 @@ module TankWars
 
 
     def killed_by(shooter)
+      return if @dead
+      @dead = true
       notify_killed_by(shooter.id) if me?
     end
 
-    def explode
+    def self.explode(x,y)
       options = {
-        x: @x,
-        y: @y
+        x: x,
+        y: y
       }
       ProjectileExplosion.create(options)
-      play_explosion_sound
+      PlayerSound.play_explosion_sound
     end
 
     private

@@ -58,8 +58,8 @@ module TankWars
         when /^SHOT_FIRED (\d+) (\d+) (\d+)$/
           push_event(:on_shot_fired, $1.to_i, $2.to_i, $3.to_i)
 
-        when /^KILLED_BY (\d+) (\d+)$/
-          push_event(:on_kill_event, $1.to_i, $2.to_i)
+        when /^KILLED_BY (\d+) (\d+) (\d+) (\d+)$/
+          push_event(:on_kill_event, $1.to_i, $2.to_i, $3.to_i, $4.to_i)
 
         else
           puts "Unsupported message: #{line.inspect}"

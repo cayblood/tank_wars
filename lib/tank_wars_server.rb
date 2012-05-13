@@ -86,9 +86,10 @@ module Tank
         puts "#{line} received"
         killer_id = $1
         #$world.remove_tank_at(@id)
+        @y = 600 #HACK - we don't know y. sry (oma))
+        broadcast_message("KILLED_BY", killer_id, @x, @y)
         @x = nil
         $world.broadcast_positions
-        broadcast_message("KILLED_BY", killer_id)
         EM::add_timer(3) do
           respawn
         end
