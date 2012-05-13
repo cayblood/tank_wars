@@ -73,7 +73,6 @@ module TankWars
       end
     end
 
-
     def killed_by(shooter)
       notify_killed_by(shooter.id) if me?
     end
@@ -104,7 +103,6 @@ module TankWars
     def notify_position_change(x)
       dispatch(:send_position, x)
     end
-
 
     def notify_killed_by(id)
       dispatch(:send_killed_by, id)

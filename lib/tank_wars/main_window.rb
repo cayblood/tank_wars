@@ -55,7 +55,6 @@ module TankWars
       end
     end
 
-
     def on_kill_event(victim_id, killer_id)
       # I know my own angle
       puts "OUCH" if @self_id == victim
