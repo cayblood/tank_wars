@@ -33,7 +33,6 @@ module TankWars
       play_power_sound
     end
 
-
     def shot_fired(angle, power)
       puts "SHOT. Angle: #{angle}. Power: #{power}."
       options = {
