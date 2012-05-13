@@ -26,7 +26,6 @@ module TankWars
     end
 
     def draw_shooting_indicator
-
     end
 
     def draw
