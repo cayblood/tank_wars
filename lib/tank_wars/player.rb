@@ -20,7 +20,6 @@ module TankWars
 
     COLORS = [Gosu::Color::GRAY, Gosu::Color::GREEN, Gosu::Color::RED, Gosu::Color::BLUE]
 
-
     def initialize(options)
       @width = 50
       super

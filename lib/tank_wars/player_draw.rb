@@ -11,17 +11,25 @@ module TankWars
     end
 
     def draw_power
-      @power_text = Chingu::Text.new(@power.to_s, x: @x + 13, y: @y, zorder: 1, font: "Arial", size: 23)
-      @power_text.x = @gun_base_x + ((@power_text.width - @width) / 2)
-      @power_text.draw
+      power_height = (@height * @power / 100.0).round
+      if power_height > 0 && @power > 1
+        power_rect = Chingu::Rect.new(@gun_base_x - 5, @y + @height - power_height, 10, power_height)
+        $window.fill_rect(power_rect, Gosu::Color::YELLOW, 1)
+      elsif @firing
+        power_rect = Chingu::Rect.new(@gun_base_x - 5, @y, 10, @height)
+        $window.fill_rect(power_rect, Gosu::Color::CYAN, 1)
+      end
+    end
+
+    def draw_shooting_indicator
+
     end
 
     def draw
       @rect = Chingu::Rect.new(@x, @y, @width, @height)
       $window.fill_rect(@rect, @color, 1)
       draw_gun
-      #draw_power
+      draw_power
     end
-
   end
 end
