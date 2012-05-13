@@ -5,7 +5,8 @@ module TankWars
     attr_accessor :x, :y, :radis
 
     def initialize(options)
-      options[:image] = Image["example_explosion.png"]
+      @@image_of_explosion ||= Image["example_explosion.png"]
+      options[:image] =  @@image_of_explosion
       super
       @x = options[:x]
       @y = options[:y]
