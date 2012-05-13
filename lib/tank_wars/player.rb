@@ -34,7 +34,7 @@ module TankWars
 
       @id = options[:id]
       @target_angle = options[:target_angle]
-      @server = options[:networking].server
+      @server = options[:network]
       calculate_angle!
       @power = 0
       @last_shot = Time.now - 5
@@ -109,7 +109,7 @@ module TankWars
     end
 
     def dispatch(name, *args)
-      @server.dispatch(name, *args)
+      @server.send_to_network(name, *args)
     end
   end
 end
