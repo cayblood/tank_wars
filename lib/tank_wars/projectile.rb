@@ -48,6 +48,11 @@ module TankWars
       end
     end
 
+    def destroy
+      super
+      @shooter.firing = false
+    end
+
     def update
       draw
     end

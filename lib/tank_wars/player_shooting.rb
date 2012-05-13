@@ -1,6 +1,7 @@
 module TankWars
-
 module PlayerShooting
+  attr_accessor :charging, :firing
+
   def increase_angle
     if @target_angle < 360
       @target_angle += 1
@@ -47,8 +48,7 @@ module PlayerShooting
   end
 
   def charge
-    return unless Time.now - @last_shot > @cooldown
-
+    return if @firing
     @charging ||= 0
     @charging += $window.milliseconds_since_last_tick
     @power = [(@charging ** 2) / (100 ** 2), 100].min
@@ -57,7 +57,7 @@ module PlayerShooting
   def fire
     return unless @charging
     notify_shot_fired
-    @last_shot = Time.now
+    @firing = true
     @charging = nil
     @power = 0
   end

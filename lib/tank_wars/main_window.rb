@@ -4,9 +4,6 @@ require 'tank_wars/player'
 require 'tank_wars/background'
 require 'tank_wars/networking'
 
-OUR_PLAYER_NUMBER = 1
-
-
 module TankWars
   class MainWindow < Chingu::Window
     def initialize(host, port = 9876)
@@ -69,4 +66,3 @@ module TankWars
     end
   end
 end
-
