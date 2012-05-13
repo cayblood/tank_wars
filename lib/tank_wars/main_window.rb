@@ -61,7 +61,9 @@ module TankWars
     end
 
     def on_shot_fired(id, angle, power)
-      player.shot_fired(angle, power) if player = @players[id]
+      if player = @players[id]
+        player.shot_fired(angle, power)
+      end
     end
   end
 end
