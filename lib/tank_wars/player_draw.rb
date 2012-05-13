@@ -20,7 +20,7 @@ module TankWars
       @rect = Chingu::Rect.new(@x, @y, @width, @height)
       $window.fill_rect(@rect, @color, 1)
       draw_gun
-      draw_power
+      #draw_power
     end
 
   end
