@@ -111,7 +111,5 @@ module TankWars
     def dispatch(name, *args)
       @server.dispatch(name, *args)
     end
-
-
   end
 end
