@@ -35,6 +35,7 @@ module PlayerShooting
 
 
   def shot_fired(angle, power)
+    puts "SHOT. Angle: #{angle}. Power: #{power}."
     options = {
       initial_angle: angle,
       initial_power: power,
