@@ -3,7 +3,7 @@ Installation:
   bundle 
 
 To run the server:
-  ruby lib/tank_wars/tank_wars_server.rb
+  ruby lib/tank_wars_server.rb
 
 To run the client (after a server is started):
   export TANK_WARS_SERVER=localhost
