@@ -55,6 +55,17 @@ module TankWars
       end
     end
 
+
+    def on_kill_event(victim_id, killer_id)
+      # I know my own angle
+      puts "OUCH" if @self_id == victim
+      puts "YIHHAA" if @players[killer_id]
+
+      if player = @players[victim_id]
+        player.explode
+      end
+    end
+
     def on_shot_fired(id, angle, power)
       if player = @players[id]
         player.shot_fired(angle, power)

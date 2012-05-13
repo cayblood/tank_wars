@@ -76,6 +76,9 @@ module TankWars
 
     def killed_by(shooter)
       notify_killed_by(shooter.id) if me?
+    end
+
+    def explode
       options = {
         x: @x,
         y: @y
