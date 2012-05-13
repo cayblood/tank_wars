@@ -62,6 +62,7 @@ module TankWars
     end
 
     def update
+      super
       self.blocked_on_left = false
       self.blocked_on_right = false
       each_bounding_box_collision(Player) do |player, other_player|
@@ -71,7 +72,6 @@ module TankWars
           player.blocked_on_left = true
         end
       end
-      draw
     end
 
 
