@@ -20,7 +20,6 @@ module TankWars
 
     COLORS = [Gosu::Color::GRAY, Gosu::Color::GREEN, Gosu::Color::RED, Gosu::Color::BLUE]
 
-
     def initialize(options)
       @width = 50
       super
@@ -63,8 +62,8 @@ module TankWars
 
     def update
       super
-      self.blocked_on_left = false
-      self.blocked_on_right = false
+      self.blocked_on_left = @x <= 0
+      self.blocked_on_right = (@x+@width) >= $window.width
       each_bounding_box_collision(Player) do |player, other_player|
         if player.x < other_player.x
           player.blocked_on_right = true

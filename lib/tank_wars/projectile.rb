@@ -8,7 +8,8 @@ module TankWars
 
     def initialize(shooter, options)
       @shooter = shooter
-      options[:image] = Image["shell.png"]
+      @@image_of_shell ||= Image["shell.png"]
+      options[:image] = @@image_of_shell
       super options
       @power = options[:initial_power]
       @v0 = @power / (100.0 / 30.0)
@@ -53,8 +54,5 @@ module TankWars
       @shooter.firing = false
     end
 
-    def update
-      draw
-    end
   end
 end
