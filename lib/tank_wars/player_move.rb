@@ -12,7 +12,7 @@ module PlayerMove
 
   def update_position(x)
     self.x = x
-    notify_position_change(x)
+    notify_position_change x
   end
 
   def update_opponent_position(x)
