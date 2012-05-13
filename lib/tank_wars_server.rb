@@ -88,6 +88,7 @@ module Tank
         #$world.remove_tank_at(@id)
         @x = nil
         $world.broadcast_positions
+        broadcast_message("KILLED_BY", killer_id)
         EM::add_timer(3) do
           respawn
         end
