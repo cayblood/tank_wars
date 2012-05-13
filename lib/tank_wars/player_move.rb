@@ -1,6 +1,4 @@
 module PlayerMove
-
-
   def move_left
     update_position(self.x - 2) unless blocked_on_left
   end
@@ -8,7 +6,6 @@ module PlayerMove
   def move_right
     update_position(self.x + 2) unless blocked_on_right
   end
-
 
   def update_position(x)
     self.x = x

@@ -16,7 +16,7 @@ module TankWars
       super
       @network.dispatch_network_events_to(self)
       self.caption = "FPS: #{self.fps} ms since last tick: " +
-          "#{self.milliseconds_since_last_tick}"
+        "#{self.milliseconds_since_last_tick}"
     end
 
     # Events
@@ -55,16 +55,13 @@ module TankWars
       end
     end
 
-
     def on_kill_event(victim_id, killer_id, x,y)
       puts "YIHHAA" if @players[killer_id]
       Player.explode(x,y)
     end
 
     def on_shot_fired(id, angle, power)
-      if player = @players[id]
-        player.shot_fired(angle, power)
-      end
+      player.shot_fired(angle, power) if player = @players[id]
     end
   end
 end

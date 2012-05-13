@@ -27,7 +27,6 @@ module TankWars
     end
   end
 
-
   module NetworkClient
     include EM::Protocols::LineText2
 
@@ -74,7 +73,6 @@ module TankWars
     def send_position(x)
       send_data("POSITION #{x}\n")
     end
-
 
     def send_fire(angle, power)
       send_data("FIRE #{angle} #{power}\n")

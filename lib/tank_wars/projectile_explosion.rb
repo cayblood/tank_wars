@@ -16,7 +16,5 @@ module TankWars
 
       during(500) { self.alpha -= 1; self.factor_x += 0.01; self.factor_y += 0.01 }.then { self.destroy }
     end
-
-
   end
 end
