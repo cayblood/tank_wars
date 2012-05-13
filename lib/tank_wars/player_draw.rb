@@ -25,9 +25,6 @@ module TankWars
       end
     end
 
-    def draw_shooting_indicator
-    end
-
     def draw
       @rect = Chingu::Rect.new(@x, @y, @width, @height)
       $window.fill_rect(@rect, @color, 1)
