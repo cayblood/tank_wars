@@ -91,6 +91,10 @@ module Tank
         EM::add_timer(3) do
           respawn
         end
+      when /^POSITION (.*)$/
+        puts "#{line} recieved"
+        @x = $1.to_i
+        $world.broadcast_positions
       else
         puts "unsupported message #{line.inspect}"
     end

@@ -28,8 +28,7 @@ module TankWars
       left = @players.keys
       clients.each do |id, pos, angle|
         left.delete(id)
-
-        @players[id] ||= Player.create(
+        player = @players[id] ||= Player.create(
           :x => pos,
           :id => id,
           :player_number => id,
@@ -37,6 +36,7 @@ module TankWars
           :is_me => (id == @self_id),
           :network => @network
         )
+        player.update_opponent_position pos
       end
 
       left.each do |id|

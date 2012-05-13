@@ -67,6 +67,12 @@ module TankWars
       send_data("KILLED_BY #{player}\n")
     end
 
+
+    def send_position(x)
+      send_data("POSITION #{x}\n")
+    end
+
+
     def send_fire(angle, power)
       send_data("FIRE #{angle} #{power}\n")
     end
