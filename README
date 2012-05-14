@@ -6,7 +6,7 @@ To run the server:
   ruby lib/tank_wars_server.rb
 
 To run the client (after a server is started):
-  export TANK_WARS_SERVER=localhost
+  export TANK_WARS_SERVER=localhost  <-- set this to your server's ip or hostname
   rake
 
 HAVE FUN!
