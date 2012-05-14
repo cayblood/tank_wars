@@ -1,6 +1,6 @@
 Installation:
   gem install gosu
-  bundle 
+  bundle
 
 To run the server:
   ruby lib/tank_wars_server.rb
@@ -10,3 +10,4 @@ To run the client (after a server is started):
   rake
 
 HAVE FUN!
+
